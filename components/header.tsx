@@ -1,4 +1,11 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
 	NavigationMenu,
 	NavigationMenuContent,
@@ -9,12 +16,15 @@ import {
 	navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import {
 	type ComponentPropsWithoutRef,
 	type ElementRef,
 	forwardRef,
 } from "react";
+
 const components: { title: string; href: string; description: string }[] = [
 	{
 		title: "Alert Dialog",
@@ -53,76 +63,101 @@ const components: { title: string; href: string; description: string }[] = [
 	},
 ];
 export function Header() {
+	const { setTheme } = useTheme();
 	return (
 		<div className="flex items-center justify-between px-10 py-8">
 			<Link href="/" className="font-medium">
 				Hello! Shadcn/ui 🚀
 			</Link>
-			<div>
-				{" "}
-				<NavigationMenu>
-					<NavigationMenuList>
-						<NavigationMenuItem>
-							<NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
-							<NavigationMenuContent>
-								<ul className="grid gap-3 p-6 lg:w-[500px] md:w-[400px] lg:grid-cols-[.75fr_1fr]">
-									<li className="row-span-3">
-										<NavigationMenuLink asChild>
-											<a
-												className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-												href="/"
-											>
-												<div className="mt-4 mb-2 font-medium text-lg">
-													shadcn/ui
-												</div>
-												<p className="text-muted-foreground text-sm leading-tight">
-													Beautifully designed components that you can copy and
-													paste into your apps. Accessible. Customizable. Open
-													Source.
-												</p>
-											</a>
-										</NavigationMenuLink>
-									</li>
-									<ListItem href="/docs" title="Introduction">
-										Re-usable components built using Radix UI and Tailwind CSS.
-									</ListItem>
-									<ListItem href="/docs/installation" title="Installation">
-										How to install dependencies and structure your app.
-									</ListItem>
-									<ListItem
-										href="/docs/primitives/typography"
-										title="Typography"
-									>
-										Styles for headings, paragraphs, lists...etc
-									</ListItem>
-								</ul>
-							</NavigationMenuContent>
-						</NavigationMenuItem>
-						<NavigationMenuItem>
-							<NavigationMenuTrigger>Components</NavigationMenuTrigger>
-							<NavigationMenuContent>
-								<ul className="grid w-[400px] gap-3 p-4 lg:w-[600px] md:w-[500px] md:grid-cols-2">
-									{components.map((component) => (
-										<ListItem
-											key={component.title}
-											title={component.title}
-											href={component.href}
-										>
-											{component.description}
+			<div className="flex items-center gap-4">
+				<div>
+					<NavigationMenu>
+						<NavigationMenuList>
+							<NavigationMenuItem>
+								<NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+								<NavigationMenuContent>
+									<ul className="grid gap-3 p-6 lg:w-[500px] md:w-[400px] lg:grid-cols-[.75fr_1fr]">
+										<li className="row-span-3">
+											<NavigationMenuLink asChild>
+												<a
+													className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+													href="/"
+												>
+													<div className="mt-4 mb-2 font-medium text-lg">
+														shadcn/ui
+													</div>
+													<p className="text-muted-foreground text-sm leading-tight">
+														Beautifully designed components that you can copy
+														and paste into your apps. Accessible. Customizable.
+														Open Source.
+													</p>
+												</a>
+											</NavigationMenuLink>
+										</li>
+										<ListItem href="/docs" title="Introduction">
+											Re-usable components built using Radix UI and Tailwind
+											CSS.
 										</ListItem>
-									))}
-								</ul>
-							</NavigationMenuContent>
-						</NavigationMenuItem>
-						<NavigationMenuItem>
-							<Link href="/docs" legacyBehavior passHref>
-								<NavigationMenuLink className={navigationMenuTriggerStyle()}>
-									Documentation
-								</NavigationMenuLink>
-							</Link>
-						</NavigationMenuItem>
-					</NavigationMenuList>
-				</NavigationMenu>
+										<ListItem href="/docs/installation" title="Installation">
+											How to install dependencies and structure your app.
+										</ListItem>
+										<ListItem
+											href="/docs/primitives/typography"
+											title="Typography"
+										>
+											Styles for headings, paragraphs, lists...etc
+										</ListItem>
+									</ul>
+								</NavigationMenuContent>
+							</NavigationMenuItem>
+							<NavigationMenuItem>
+								<NavigationMenuTrigger>Components</NavigationMenuTrigger>
+								<NavigationMenuContent>
+									<ul className="grid w-[400px] gap-3 p-4 lg:w-[600px] md:w-[500px] md:grid-cols-2">
+										{components.map((component) => (
+											<ListItem
+												key={component.title}
+												title={component.title}
+												href={component.href}
+											>
+												{component.description}
+											</ListItem>
+										))}
+									</ul>
+								</NavigationMenuContent>
+							</NavigationMenuItem>
+							<NavigationMenuItem>
+								<Link href="/docs" legacyBehavior passHref>
+									<NavigationMenuLink className={navigationMenuTriggerStyle()}>
+										Documentation
+									</NavigationMenuLink>
+								</Link>
+							</NavigationMenuItem>
+						</NavigationMenuList>
+					</NavigationMenu>
+				</div>
+				<div>
+					<DropdownMenu>
+						<DropdownMenuTrigger asChild>
+							<Button variant="outline" size="icon">
+								<Sun className="dark:-rotate-90 h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:scale-0" />
+								<Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+								<span className="sr-only">Toggle theme</span>
+							</Button>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="end">
+							<DropdownMenuItem onClick={() => setTheme("light")}>
+								Light
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => setTheme("dark")}>
+								Dark
+							</DropdownMenuItem>
+							<DropdownMenuItem onClick={() => setTheme("system")}>
+								System
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				</div>
 			</div>
 		</div>
 	);
